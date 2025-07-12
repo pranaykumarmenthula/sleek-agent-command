@@ -5,41 +5,41 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export const CTA = () => {
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10" />
+    <section className="py-32 px-6 relative">
+      <div className="absolute inset-0 bg-gradient-to-r from-muted/20 via-muted/30 to-muted/20" />
       
-      <div className="relative z-10 max-w-4xl mx-auto text-center fade-in-up">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass glow mb-8">
-          <Sparkles className="w-4 h-4 text-accent" />
+      <div className="relative z-10 max-w-4xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass subtle-glow mb-12">
+          <Sparkles className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm font-medium">Start Your Journey Today</span>
         </div>
 
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+        <h2 className="text-4xl md:text-6xl font-light mb-8 tracking-tight">
           Ready to Transform
-          <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <span className="block font-medium text-gradient mt-2">
             Your Workflow?
           </span>
         </h2>
 
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed font-light">
           Join thousands of professionals who have automated their tasks and boosted productivity by 300%
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto mb-8 scale-in">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto mb-12">
           <Input 
             placeholder="Enter your work email" 
-            className="px-6 py-4 text-lg rounded-xl border-2 glass focus:glow transition-all duration-300"
+            className="px-6 py-4 text-lg rounded-xl border-2 glass-card focus:ring-2 focus:ring-ring"
           />
           <Button 
             size="lg"
-            className="group bg-gradient-to-r from-primary to-accent hover:scale-105 text-white px-8 py-4 text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 whitespace-nowrap glow"
+            className="button-gradient text-primary-foreground px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl whitespace-nowrap subtle-glow group"
           >
             Get Started
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1" />
           </Button>
         </div>
 
-        <p className="text-sm text-muted-foreground fade-in">
+        <p className="text-sm text-muted-foreground font-light">
           Free 14-day trial • No credit card required • Cancel anytime
         </p>
       </div>

@@ -2,49 +2,48 @@
 import { Mail, MessageCircle, Calendar, FileText, Database, Camera, Music, ShoppingCart } from "lucide-react";
 
 const integrations = [
-  { name: "Gmail", icon: Mail, color: "text-red-500" },
-  { name: "Slack", icon: MessageCircle, color: "text-purple-500" },
-  { name: "Google Calendar", icon: Calendar, color: "text-blue-500" },
-  { name: "Notion", icon: FileText, color: "text-gray-700 dark:text-gray-300" },
-  { name: "Airtable", icon: Database, color: "text-yellow-600" },
-  { name: "Instagram", icon: Camera, color: "text-pink-500" },
-  { name: "Spotify", icon: Music, color: "text-green-500" },
-  { name: "Shopify", icon: ShoppingCart, color: "text-green-600" }
+  { name: "Gmail", icon: Mail, color: "text-muted-foreground" },
+  { name: "Slack", icon: MessageCircle, color: "text-muted-foreground" },
+  { name: "Google Calendar", icon: Calendar, color: "text-muted-foreground" },
+  { name: "Notion", icon: FileText, color: "text-muted-foreground" },
+  { name: "Airtable", icon: Database, color: "text-muted-foreground" },
+  { name: "Instagram", icon: Camera, color: "text-muted-foreground" },
+  { name: "Spotify", icon: Music, color: "text-muted-foreground" },
+  { name: "Shopify", icon: ShoppingCart, color: "text-muted-foreground" }
 ];
 
 export const Integrations = () => {
   return (
-    <section id="integrations" className="py-24 px-6 glass">
+    <section id="integrations" className="py-32 px-6 bg-muted/30">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 fade-in-up">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">
             Connect Everything
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-light">
             Seamlessly integrate with your favorite apps and services
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 mb-16">
           {integrations.map((integration, index) => (
             <div 
               key={index}
-              className="group flex flex-col items-center p-6 rounded-2xl glass hover:glow transition-all duration-300 hover:scale-110 fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="flex flex-col items-center p-8 rounded-2xl glass-card hover:bg-secondary/20 soft-shadow hover:elevated-card group"
             >
-              <div className="w-12 h-12 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 flex items-center justify-center mb-4 group-hover:scale-105">
                 <integration.icon className={`w-8 h-8 ${integration.color}`} />
               </div>
-              <span className="text-sm font-medium text-center">
+              <span className="text-sm font-medium text-center text-foreground">
                 {integration.name}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="text-center fade-in">
-          <p className="text-muted-foreground mb-4">And 90+ more integrations</p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium hover:scale-105 transition-transform duration-300 cursor-pointer glow">
+        <div className="text-center">
+          <p className="text-muted-foreground mb-6 font-light">And 90+ more integrations</p>
+          <div className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-primary to-secondary text-primary-foreground font-medium subtle-glow cursor-pointer hover:shadow-lg">
             View All Integrations
           </div>
         </div>
