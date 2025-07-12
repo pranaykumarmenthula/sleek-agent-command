@@ -44,7 +44,10 @@ function FloatingOrb({ position }: { position: [number, number, number] }) {
   useFrame((state) => {
     if (ref.current) {
       ref.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.3;
-      ref.current.material.opacity = 0.3 + Math.sin(state.clock.elapsedTime * 0.8) * 0.2;
+      const material = ref.current.material as THREE.MeshBasicMaterial;
+      if (material && !Array.isArray(material)) {
+        material.opacity = 0.3 + Math.sin(state.clock.elapsedTime * 0.8) * 0.2;
+      }
     }
   });
 
