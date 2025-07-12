@@ -37,13 +37,13 @@ const features = [
 
 export const Features = () => {
   return (
-    <section className="py-24 px-4 relative">
+    <section id="features" className="py-24 px-6 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-16 fade-in-up">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             Powerful Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Everything you need to automate your workflow and boost productivity
           </p>
         </div>
@@ -52,18 +52,19 @@ export const Features = () => {
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className="group bg-white/60 backdrop-blur-sm border-white/20 hover:bg-white/80 transition-all duration-500 hover:scale-105 hover:shadow-xl"
+              className="group glass border-border hover:glow transition-all duration-500 hover:scale-105 fade-in"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 glow">
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <CardTitle className="text-xl font-semibold text-gray-900">
+                <CardTitle className="text-xl font-semibold">
                   {feature.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600 leading-relaxed">
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   {feature.description}
                 </CardDescription>
               </CardContent>

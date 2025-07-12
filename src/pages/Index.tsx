@@ -5,10 +5,12 @@ import { Features } from "@/components/Features";
 import { Integrations } from "@/components/Integrations";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { ThreeBackground } from "@/components/ThreeBackground";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      <ThreeBackground />
       <Header />
       <MessageInput />
       <Features />

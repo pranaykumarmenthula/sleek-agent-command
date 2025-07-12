@@ -21,40 +21,40 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border-b border-white/20 dark:border-slate-700/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 glass transition-all duration-500">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-primary to-accent flex items-center justify-center glow">
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="text-xl font-bold text-slate-900 dark:text-white">AI Agent</span>
+            <span className="text-xl font-semibold tracking-tight">AI Agent</span>
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
               Features
             </a>
-            <a href="#integrations" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <a href="#integrations" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
               Integrations
             </a>
-            <a href="#pricing" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
               Pricing
             </a>
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleDarkMode}
-              className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+              className="text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-105"
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
             <Button
               variant="outline"
-              className="hidden sm:inline-flex border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+              className="hidden sm:inline-flex border-border hover:bg-secondary/80 transition-all duration-300 hover:scale-105"
             >
               Sign In
             </Button>
