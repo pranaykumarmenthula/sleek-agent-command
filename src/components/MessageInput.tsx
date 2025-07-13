@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Sparkles } from "lucide-react";
@@ -72,6 +73,13 @@ export const MessageInput = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   const handleCloseChat = () => {
     setShowChat(false);
     setInitialChatMessage("");
@@ -104,6 +112,7 @@ export const MessageInput = () => {
               <Textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
                 placeholder={displayText}
                 className="min-h-[120px] border-0 bg-transparent text-lg placeholder:text-slate-400 dark:placeholder:text-slate-500 resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
               />
@@ -114,9 +123,9 @@ export const MessageInput = () => {
                 <Button
                   type="submit"
                   disabled={!message.trim()}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 disabled:hover:scale-100"
                 >
-                  <Send className="w-4 h-4 mr-2" />
+                  <Send className="w-4 h-4 mr-2 transition-transform duration-200 group-hover:translate-x-0.5" />
                   Send
                 </Button>
               </div>
