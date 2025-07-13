@@ -1,4 +1,3 @@
-
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, Chrome } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignInPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -14,19 +14,23 @@ const SignInPage = () => {
     email: "",
     password: ""
   });
+  
+  const { setIsSignedIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
-    // Add Google OAuth logic here
     console.log("Google sign in initiated");
-    // This would typically integrate with Google OAuth
-    alert("Google sign-in would be implemented here with proper OAuth integration");
+    // Simulate successful Google sign-in
+    setIsSignedIn(true);
+    navigate("/");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add authentication logic here
     console.log(isSignUp ? "Sign up" : "Sign in", formData);
-    alert(`${isSignUp ? 'Sign up' : 'Sign in'} functionality would be implemented here`);
+    // Simulate successful sign-in
+    setIsSignedIn(true);
+    navigate("/");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
