@@ -10,6 +10,31 @@ import { Link } from "react-router-dom";
 
 const SignInPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleGoogleSignIn = () => {
+    // Add Google OAuth logic here
+    console.log("Google sign in initiated");
+    // This would typically integrate with Google OAuth
+    alert("Google sign-in would be implemented here with proper OAuth integration");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add authentication logic here
+    console.log(isSignUp ? "Sign up" : "Sign in", formData);
+    alert(`${isSignUp ? 'Sign up' : 'Sign in'} functionality would be implemented here`);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-300">
@@ -31,6 +56,7 @@ const SignInPage = () => {
             <CardContent className="space-y-6">
               <Button 
                 variant="outline" 
+                onClick={handleGoogleSignIn}
                 className="w-full border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 <Chrome className="w-4 h-4 mr-2" />
@@ -44,31 +70,43 @@ const SignInPage = () => {
                 </span>
               </div>
 
-              <div className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <Input 
                     type="email" 
+                    name="email"
                     placeholder="Enter your email" 
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="pl-10 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                    required
                   />
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <Input 
                     type="password" 
+                    name="password"
                     placeholder="Enter your password" 
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className="pl-10 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                    required
                   />
                 </div>
-              </div>
 
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-                {isSignUp ? "Create Account" : "Sign In"}
-              </Button>
+                <Button 
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                >
+                  {isSignUp ? "Create Account" : "Sign In"}
+                </Button>
+              </form>
 
               <div className="text-center">
                 <button
+                  type="button"
                   onClick={() => setIsSignUp(!isSignUp)}
                   className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
                 >

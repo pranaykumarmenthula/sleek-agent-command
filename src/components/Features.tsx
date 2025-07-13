@@ -40,10 +40,10 @@ export const Features = () => {
     <section className="py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4 bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text">
             Powerful Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Everything you need to automate your workflow and boost productivity
           </p>
         </div>
@@ -52,18 +52,18 @@ export const Features = () => {
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className="group bg-white/60 backdrop-blur-sm border-white/20 hover:bg-white/80 transition-all duration-500 hover:scale-105 hover:shadow-xl"
+              className="group bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/20 dark:border-slate-700/50 hover:bg-white/80 dark:hover:bg-slate-700/60 transition-all duration-500 hover:scale-105 hover:shadow-xl"
             >
               <CardHeader>
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <CardTitle className="text-xl font-semibold text-gray-900">
+                <CardTitle className="text-xl font-semibold text-slate-900 dark:text-white">
                   {feature.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600 leading-relaxed">
+                <CardDescription className="text-slate-600 dark:text-slate-300 leading-relaxed">
                   {feature.description}
                 </CardDescription>
               </CardContent>
