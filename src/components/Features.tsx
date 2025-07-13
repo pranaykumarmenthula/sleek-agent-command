@@ -6,51 +6,45 @@ const features = [
   {
     icon: Brain,
     title: "Intelligent Understanding",
-    description: "Advanced AI processes natural language commands with context awareness for precise task execution across all your apps."
+    description: "Advanced LLM processes natural language commands with context awareness for precise task execution."
   },
   {
     icon: MessageSquare,
     title: "Single Interface",
-    description: "Control all your connected apps through one simple chat interface. No more switching between dozens of platforms."
+    description: "Control all your connected apps through one simple chat interface. No switching between platforms."
   },
   {
     icon: Zap,
-    title: "Instant Automation", 
-    description: "Execute complex workflows across multiple apps in seconds with simple text commands. Boost productivity by 300%."
+    title: "Instant Automation",
+    description: "Execute complex workflows across multiple apps in seconds with simple text commands."
   },
   {
     icon: Shield,
     title: "Enterprise Security",
-    description: "Bank-level encryption and OAuth 2.0 authentication keep your data safe while connecting to your favorite tools."
+    description: "Bank-level encryption and OAuth 2.0 authentication keep your data safe and secure."
   },
   {
     icon: Clock,
     title: "24/7 Availability",
-    description: "Your AI agent works around the clock, handling routine tasks and notifications even when you're offline."
+    description: "Your AI agent works around the clock, handling tasks even when you're offline."
   },
   {
     icon: Users,
     title: "Team Collaboration",
-    description: "Share workflows and automate team processes with collaborative AI assistance. Perfect for growing startups."
+    description: "Share workflows and automate team processes with collaborative AI assistance."
   }
 ];
 
 export const Features = () => {
   return (
-    <section id="features" className="py-32 px-6 relative">
+    <section className="py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-card mb-8">
-            <Zap className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground">Powerful Features</span>
-          </div>
-          
-          <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">
-            Everything you need to
-            <span className="block font-medium text-gradient mt-2">automate your workflow</span>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4">
+            Powerful Features
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-light">
-            Built for the modern professional who values efficiency and wants to focus on what matters most.
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Everything you need to automate your workflow and boost productivity
           </p>
         </div>
 
@@ -58,18 +52,18 @@ export const Features = () => {
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className="glass-card border-border/50 hover:border-border elevated-card hover:shadow-lg group"
+              className="group bg-white/60 backdrop-blur-sm border-white/20 hover:bg-white/80 transition-all duration-500 hover:scale-105 hover:shadow-xl"
             >
               <CardHeader>
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6 soft-shadow group-hover:shadow-md">
-                  <feature.icon className="w-6 h-6 text-primary-foreground" />
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <CardTitle className="text-xl font-medium">
+                <CardTitle className="text-xl font-semibold text-gray-900">
                   {feature.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-muted-foreground leading-relaxed">
+                <CardDescription className="text-gray-600 leading-relaxed">
                   {feature.description}
                 </CardDescription>
               </CardContent>
