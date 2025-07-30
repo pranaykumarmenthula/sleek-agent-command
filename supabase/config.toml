@@ -2,3 +2,7 @@ project_id = "rxkpzczkoshaudtiuhea"
 
 [functions.ai-agent]
 verify_jwt = false
+
+[[functions.ai-agent.env_vars]]
+name = "AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"
+value = "gpt-35-turbo"

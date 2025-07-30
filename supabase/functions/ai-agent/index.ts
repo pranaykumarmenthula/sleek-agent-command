@@ -90,6 +90,8 @@ async function callAzureOpenAI(message: string, googleAccessToken: string | null
   const azureApiKey = Deno.env.get('AZURE_OPENAI_API_KEY');
   const deploymentName = Deno.env.get('AZURE_OPENAI_CHAT_DEPLOYMENT_NAME');
 
+  console.log('Azure config:', { azureEndpoint, deploymentName, hasApiKey: !!azureApiKey });
+
   const tools = [
     {
       type: "function",
