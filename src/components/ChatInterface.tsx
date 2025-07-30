@@ -86,7 +86,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         },
         body: JSON.stringify({
           message: content,
-          user_id: 'demo-user-id' // Replace with actual user ID when auth is implemented
+          user_id: crypto.randomUUID() // Generate a proper UUID instead of string
         }),
       });
 
