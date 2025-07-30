@@ -4,5 +4,9 @@ project_id = "rxkpzczkoshaudtiuhea"
 verify_jwt = false
 
 [[functions.ai-agent.env_vars]]
+name = "AZURE_OPENAI_ENDPOINT"
+value = "https://prana-md66jk4o-eastus2.openai.azure.com/"
+
+[[functions.ai-agent.env_vars]]
 name = "AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"
 value = "gpt-35-turbo"
