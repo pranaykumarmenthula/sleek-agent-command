@@ -76,6 +76,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setIsLoading(true);
 
     try {
+      console.log('Calling AI agent with message:', content);
+      
       // Call the AI agent edge function
       const response = await fetch('https://rxkpzczkoshaudtiuhea.supabase.co/functions/v1/ai-agent', {
         method: 'POST',
@@ -88,7 +90,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         }),
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
       
       let aiContent = data.message || 'I apologize, but I encountered an issue processing your request.';
       
