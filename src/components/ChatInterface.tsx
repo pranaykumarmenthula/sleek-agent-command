@@ -75,17 +75,61 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setInputMessage('');
     setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      // Call the AI agent edge function
+      const response = await fetch('https://rxkpzczkoshaudtiuhea.supabase.co/functions/v1/ai-agent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: content,
+          user_id: 'demo-user-id' // Replace with actual user ID when auth is implemented
+        }),
+      });
+
+      const data = await response.json();
+      
+      let aiContent = data.message || 'I apologize, but I encountered an issue processing your request.';
+      
+      // If there are tool results, format them nicely
+      if (data.tool_results && data.tool_results.length > 0) {
+        const results = data.tool_results.map((result: any) => {
+          if (result.success) {
+            return `✅ ${result.message}`;
+          } else {
+            return `❌ ${result.error}`;
+          }
+        }).join('\n\n');
+        
+        aiContent += '\n\n' + results;
+      }
+
+      // Add note if Google auth is needed
+      if (data.needs_google_auth) {
+        aiContent += '\n\n🔗 Note: Google account connection required for Gmail and Calendar features.';
+      }
+
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: `I understand you want help with: "${content}". This is a simulated response. In a real implementation, this would connect to your AI backend.`,
+        content: aiContent,
         sender: 'ai',
         timestamp: new Date()
       };
+      
       setMessages(prev => [...prev, aiMessage]);
-      setIsLoading(false);
-    }, 1500);
+    } catch (error) {
+      console.error('Error calling AI agent:', error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: 'Sorry, I encountered an error processing your request. Please try again.',
+        sender: 'ai',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    }
+    
+    setIsLoading(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

@@ -371,7 +371,39 @@ async function sendEmail(args: any, accessToken: string) {
 }
 
 async function refreshGoogleToken(encryptedTokenData: string): Promise<string | null> {
-  // This would decrypt and refresh the Google token
-  // For now, returning null - implement token refresh logic here
-  return null;
+  try {
+    const tokenData = JSON.parse(encryptedTokenData);
+    const clientId = Deno.env.get('GOOGLE_CLIENT_ID');
+    const clientSecret = Deno.env.get('GOOGLE_CLIENT_SECRET');
+    
+    if (!clientId || !clientSecret) {
+      console.error('Google OAuth credentials not configured');
+      return null;
+    }
+
+    // Refresh the access token using refresh token
+    const response = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        client_id: clientId,
+        client_secret: clientSecret,
+        refresh_token: tokenData.refresh_token,
+        grant_type: 'refresh_token',
+      }),
+    });
+
+    if (response.ok) {
+      const newTokenData = await response.json();
+      return newTokenData.access_token;
+    } else {
+      console.error('Failed to refresh Google token:', await response.text());
+      return null;
+    }
+  } catch (error) {
+    console.error('Error refreshing Google token:', error);
+    return null;
+  }
 }
