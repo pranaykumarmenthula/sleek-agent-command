@@ -25,7 +25,7 @@ export const MessageInput = () => {
   const [showSignInPrompt, setShowSignInPrompt] = useState(false);
   const [initialChatMessage, setInitialChatMessage] = useState("");
   
-  const { isSignedIn } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     const currentPrompt = samplePrompts[placeholderIndex];
@@ -62,7 +62,7 @@ export const MessageInput = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
-      if (!isSignedIn) {
+      if (!user) {
         setShowSignInPrompt(true);
         return;
       }

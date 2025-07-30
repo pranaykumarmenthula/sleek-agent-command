@@ -7,30 +7,86 @@ import { Mail, Lock, Chrome } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 const SignInPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
   
-  const { setIsSignedIn } = useAuth();
+  const { user, signIn, signUp, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleGoogleSignIn = () => {
-    console.log("Google sign in initiated");
-    // Simulate successful Google sign-in
-    setIsSignedIn(true);
-    navigate("/");
+  // Redirect if already signed in
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      const { error } = await signInWithGoogle();
+      if (error) {
+        toast({
+          title: "Google Sign-in Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(isSignUp ? "Sign up" : "Sign in", formData);
-    // Simulate successful sign-in
-    setIsSignedIn(true);
-    navigate("/");
+    setIsLoading(true);
+
+    try {
+      const { error } = isSignUp 
+        ? await signUp(formData.email, formData.password)
+        : await signIn(formData.email, formData.password);
+
+      if (error) {
+        toast({
+          title: "Authentication Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: isSignUp ? "Account Created!" : "Welcome Back!",
+          description: isSignUp 
+            ? "Please check your email to verify your account." 
+            : "You have been signed in successfully.",
+        });
+        
+        if (!isSignUp) {
+          navigate('/');
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

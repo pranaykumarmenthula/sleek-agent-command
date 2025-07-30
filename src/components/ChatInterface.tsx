@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, X, User, Bot, Maximize2, Minimize2, Plus, Mic, Paperclip } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Message {
   id: string;
@@ -28,6 +29,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -86,7 +88,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         },
         body: JSON.stringify({
           message: content,
-          user_id: crypto.randomUUID() // Generate a proper UUID instead of string
+          user_id: user?.id || crypto.randomUUID() // Use real user ID or fallback
         }),
       });
 
