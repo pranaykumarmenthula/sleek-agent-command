@@ -80,8 +80,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     try {
       console.log('Calling AI agent with message:', content);
       
-      // Call the AI agent edge function
-      const response = await fetch('https://rxkpzczkoshaudtiuhea.supabase.co/functions/v1/ai-agent', {
+      // Call Flask API instead of Supabase edge function
+      const response = await fetch('http://localhost:5000/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
