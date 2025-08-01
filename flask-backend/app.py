@@ -18,7 +18,7 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, origins=['*'])  # Allow all origins for production
 
 # --- PERMISSIONS (SCOPES) ---
 SCOPES = [

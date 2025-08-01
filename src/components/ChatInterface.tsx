@@ -80,8 +80,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     try {
       console.log('Calling AI agent with message:', content);
       
-      // Call Flask API instead of Supabase edge function
-      const response = await fetch('http://localhost:5000/chat', {
+      // Call Flask API (use Render URL in production, localhost in development)
+      const API_BASE_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:5000' 
+        : 'https://your-app-name.onrender.com'; // Replace 'your-app-name' with actual Render service name
+        
+      const response = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
