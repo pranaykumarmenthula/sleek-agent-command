@@ -67,6 +67,18 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     const content = messageContent || inputMessage.trim();
     if (!content) return;
 
+    // Check if user is authenticated
+    if (!user) {
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        content: 'Please sign in to use the AI assistant.',
+        sender: 'ai',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content,
@@ -80,14 +92,28 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
     try {
       console.log('Calling AI agent with message:', content);
+      console.log('User authenticated:', user.email);
       
-      // Call Supabase Edge Function (api-gateway)
+      // Call Supabase Edge Function (api-gateway) with correct body structure
       const { data, error } = await supabase.functions.invoke('api-gateway', {
-        body: { message: content }
+        body: { message: content } // Edge function expects 'message' field
       });
 
       if (error) {
         console.error('Supabase function error:', error);
+        
+        // Handle specific authentication errors
+        if (error.message?.includes('Authentication failed') || error.message?.includes('No Google account connected')) {
+          const errorMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: 'Please connect your Google account first to use the AI assistant. Go to your profile settings to set up Google integration.',
+            sender: 'ai',
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, errorMessage]);
+          return;
+        }
+        
         throw new Error(error.message || 'Failed to call AI agent');
       }
 
