@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, X, User, Bot, Maximize2, Minimize2, Plus, Mic, Paperclip } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -80,54 +81,28 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     try {
       console.log('Calling AI agent with message:', content);
       
-      // Call Flask API (use Render URL in production, localhost in development)
-      const API_BASE_URL = window.location.hostname === 'localhost' 
-        ? 'http://localhost:5000' 
-        : 'https://your-app-name.onrender.com'; // Replace 'your-app-name' with actual Render service name
-        
-      const response = await fetch(`${API_BASE_URL}/chat`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: content,
-          user_id: user?.id || crypto.randomUUID() // Use real user ID or fallback
-        }),
+      // Call Supabase Edge Function (api-gateway)
+      const { data, error } = await supabase.functions.invoke('api-gateway', {
+        body: { message: content }
       });
 
-      console.log('Response status:', response.status);
-      const data = await response.json();
-      console.log('Response data:', data);
-      
-      let aiContent = data.message || 'I apologize, but I encountered an issue processing your request.';
-      
-      // If there are tool results, format them nicely
-      if (data.tool_results && data.tool_results.length > 0) {
-        const results = data.tool_results.map((result: any) => {
-          if (result.success) {
-            return `✅ ${result.message}`;
-          } else {
-            return `❌ ${result.error}`;
-          }
-        }).join('\n\n');
-        
-        aiContent += '\n\n' + results;
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error(error.message || 'Failed to call AI agent');
       }
 
-      // Add note if Google auth is needed
-      if (data.needs_google_auth) {
-        aiContent += '\n\n🔗 Note: Google account connection required for Gmail and Calendar features.';
-      }
+      console.log('AI response received:', data);
 
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: aiContent,
-        sender: 'ai',
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, aiMessage]);
+      if (data && data.message) {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          content: data.message,
+          sender: 'ai',
+          timestamp: new Date()
+        }]);
+      } else {
+        throw new Error('No response from AI agent');
+      }
     } catch (error) {
       console.error('Error calling AI agent:', error);
       const errorMessage: Message = {
