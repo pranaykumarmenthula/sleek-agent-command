@@ -106,7 +106,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         if (error.message?.includes('Authentication failed') || error.message?.includes('No Google account connected')) {
           const errorMessage: Message = {
             id: (Date.now() + 1).toString(),
-            content: 'Please connect your Google account first to use the AI assistant. Go to your profile settings to set up Google integration.',
+            content: 'Please connect your Google account first to use the AI assistant. Click on your profile menu and go to "Account Setup" to connect Google.',
             sender: 'ai',
             timestamp: new Date()
           };

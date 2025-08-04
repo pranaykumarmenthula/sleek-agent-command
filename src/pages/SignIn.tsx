@@ -75,7 +75,8 @@ const SignInPage = () => {
         });
         
         if (!isSignUp) {
-          navigate('/');
+          // For existing users signing in, redirect to setup to check Google connection
+          navigate('/setup');
         }
       }
     } catch (error: any) {

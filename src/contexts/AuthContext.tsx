@@ -40,6 +40,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSession(session);
         setUser(session?.user ?? null);
         setIsLoading(false);
+        
+        // Handle successful OAuth callback
+        if (event === 'SIGNED_IN' && session?.user) {
+          const hasMultipleProviders = session.user.identities && session.user.identities.length > 1;
+          if (hasMultipleProviders) {
+            // User just connected a new provider (Google), redirect to setup to refresh
+            window.location.href = '/setup';
+          }
+        }
       }
     );
 
