@@ -17,20 +17,23 @@ export const GoogleAccountSetup: React.FC = () => {
 
     setIsConnecting(true);
     try {
+      // Store the current user info to link accounts later
+      const currentUser = user;
+      
       // This will redirect to Google OAuth and then back to our app
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.linkIdentity({
         provider: 'google',
         options: {
           scopes: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.compose',
-          redirectTo: `${window.location.origin}/`
+          redirectTo: `${window.location.origin}/setup`
         }
       });
 
       if (error) {
         console.error('Error connecting Google account:', error);
-        toast.error('Failed to connect Google account');
+        toast.error('Failed to connect Google account: ' + error.message);
       } else {
-        toast.success('Redirecting to Google...');
+        toast.success('Redirecting to Google for authorization...');
       }
     } catch (error) {
       console.error('Error:', error);
