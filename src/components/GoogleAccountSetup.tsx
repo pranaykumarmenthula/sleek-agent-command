@@ -17,15 +17,17 @@ export const GoogleAccountSetup: React.FC = () => {
 
     setIsConnecting(true);
     try {
-      // Store the current user info to link accounts later
-      const currentUser = user;
-      
-      // This will redirect to Google OAuth and then back to our app
-      const { error } = await supabase.auth.linkIdentity({
+      // Use signInWithOAuth to get Google tokens with the required scopes
+      // This will redirect to Google and then back to our app
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           scopes: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.compose',
-          redirectTo: `${window.location.origin}/setup`
+          redirectTo: `${window.location.origin}/setup`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
         }
       });
 
