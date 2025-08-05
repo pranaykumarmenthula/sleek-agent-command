@@ -91,22 +91,30 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setIsLoading(true);
 
     try {
+      console.log('=== CHAT INTERFACE DEBUG ===');
       console.log('Calling AI agent with message:', content);
       console.log('User authenticated:', user.email);
+      console.log('User ID:', user.id);
       
       // Call Supabase Edge Function (api-gateway) with correct body structure
+      console.log('Calling edge function api-gateway...');
       const { data, error } = await supabase.functions.invoke('api-gateway', {
         body: { message: content } // Edge function expects 'message' field
       });
 
+      console.log('Edge function response:', { data, error });
+
       if (error) {
-        console.error('Supabase function error:', error);
+        console.error('=== EDGE FUNCTION ERROR ===');
+        console.error('Error details:', error);
+        console.error('Error message:', error.message);
+        console.error('Error status:', error.status);
         
         // Handle specific authentication errors
         if (error.message?.includes('Authentication failed') || error.message?.includes('No Google account connected')) {
           const errorMessage: Message = {
             id: (Date.now() + 1).toString(),
-            content: 'Please connect your Google account first to use the AI assistant. Go to /setup to connect your Google account.',
+            content: 'You need to connect your Google account first. Please go to /dashboard or /setup to connect your Google account with the required permissions for Gmail and Calendar.',
             sender: 'ai',
             timestamp: new Date()
           };
@@ -125,10 +133,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           setMessages(prev => [...prev, errorMessage]);
           return;
         }
+
+        // Handle Google OAuth not enabled
+        if (error.message?.includes('Unsupported provider') || error.message?.includes('provider is not enabled')) {
+          const errorMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: 'Google OAuth is not enabled in the system. Please enable Google provider in Supabase Dashboard → Authentication → Providers.',
+            sender: 'ai',
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, errorMessage]);
+          return;
+        }
         
         throw new Error(error.message || 'Failed to call AI agent');
       }
 
+      console.log('=== SUCCESSFUL RESPONSE ===');
       console.log('AI response received:', data);
 
       if (data && data.message) {
@@ -142,7 +163,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         throw new Error('No response from AI agent');
       }
     } catch (error) {
+      console.error('=== CHAT INTERFACE CATCH ERROR ===');
       console.error('Error calling AI agent:', error);
+      console.error('Error type:', typeof error);
+      console.error('Error stack:', error.stack);
+      
       let errorContent = 'Sorry, I encountered an error processing your request. Please try again.';
       
       // Provide more specific error messages
@@ -150,6 +175,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         errorContent = 'Unable to connect to AI service. Please check your internet connection and try again.';
       } else if (error.message?.includes('Network')) {
         errorContent = 'Network error occurred. Please check your connection and try again.';
+      } else if (error.message?.includes('No Google account connected')) {
+        errorContent = 'Please connect your Google account first. Go to /setup or /dashboard to connect Google.';
       }
       
       const errorMessage: Message = {
