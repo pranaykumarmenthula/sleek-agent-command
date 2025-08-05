@@ -106,7 +106,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         if (error.message?.includes('Authentication failed') || error.message?.includes('No Google account connected')) {
           const errorMessage: Message = {
             id: (Date.now() + 1).toString(),
-            content: 'Please connect your Google account first to use the AI assistant. Click on your profile menu and go to "Account Setup" to connect Google.',
+            content: 'Please connect your Google account first to use the AI assistant. Go to /setup to connect your Google account.',
+            sender: 'ai',
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, errorMessage]);
+          return;
+        }
+
+        // Handle server configuration errors
+        if (error.message?.includes('Server configuration error')) {
+          const errorMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: 'AI service is currently unavailable due to configuration issues. Please contact support.',
             sender: 'ai',
             timestamp: new Date()
           };
@@ -131,9 +143,18 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       }
     } catch (error) {
       console.error('Error calling AI agent:', error);
+      let errorContent = 'Sorry, I encountered an error processing your request. Please try again.';
+      
+      // Provide more specific error messages
+      if (error.message?.includes('Failed to fetch')) {
+        errorContent = 'Unable to connect to AI service. Please check your internet connection and try again.';
+      } else if (error.message?.includes('Network')) {
+        errorContent = 'Network error occurred. Please check your connection and try again.';
+      }
+      
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: 'Sorry, I encountered an error processing your request. Please try again.',
+        content: errorContent,
         sender: 'ai',
         timestamp: new Date()
       };

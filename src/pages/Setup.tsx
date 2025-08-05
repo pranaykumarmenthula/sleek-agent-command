@@ -23,6 +23,24 @@ export const Setup: React.FC = () => {
     checkGoogleConnection();
   }, [user, navigate]);
 
+  // Listen for auth state changes to refresh Google connection status
+  useEffect(() => {
+    if (!user) return;
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN') {
+          // Delay to allow any triggers to complete
+          setTimeout(() => {
+            checkGoogleConnection();
+          }, 2000);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [user]);
+
   const checkGoogleConnection = async () => {
     if (!user) return;
 
@@ -33,16 +51,19 @@ export const Setup: React.FC = () => {
         .select('*')
         .eq('user_id', user.id)
         .eq('provider', 'google')
-        .single();
+        .maybeSingle(); // Use maybeSingle to avoid error when no record exists
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Error checking Google connection:', error);
         toast.error('Failed to check Google connection status');
+        setHasGoogleAccount(false);
       } else {
         setHasGoogleAccount(!!data);
+        console.log('Google connection status:', !!data);
       }
     } catch (error) {
       console.error('Error:', error);
+      setHasGoogleAccount(false);
     } finally {
       setIsLoading(false);
     }

@@ -33,7 +33,13 @@ export const GoogleAccountSetup: React.FC = () => {
 
       if (error) {
         console.error('Error connecting Google account:', error);
-        toast.error('Failed to connect Google account: ' + error.message);
+        if (error.message?.includes('Unsupported provider')) {
+          toast.error('Google OAuth is not enabled. Please enable Google provider in Supabase Dashboard → Authentication → Providers');
+        } else if (error.message?.includes('Manual linking is disabled')) {
+          toast.error('Please enable manual account linking in Supabase Dashboard → Authentication → Settings');
+        } else {
+          toast.error('Failed to connect Google account: ' + error.message);
+        }
       } else {
         toast.success('Redirecting to Google for authorization...');
       }
